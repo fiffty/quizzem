@@ -4,11 +4,11 @@ var scripts = document.getElementsByTagName("script")
 var currentScriptPath = scripts[scripts.length-1].src;
 
 angular.module('quizzem', [])
-.directive('quizzEm', quizzEm);
+.directive('qzm', qzm);
 
 
 // Angular Directive
-function quizzEm() {
+function qzm() {
 	return {
 		templateUrl: currentScriptPath.replace('quizzem.js', '../templates/quizzem.html'),
 		restrict: 'EA',
@@ -17,14 +17,14 @@ function quizzEm() {
 			inputOptions: '=qzmOptions',
 			inputTests: '=qzmTests',
 			inputRefreshState: '=qzmRefreshState',
-			onCheck: '&',
+			qzmOnCheck: '&',
 		},
-		controller: ['$q', '$scope', CodeEditorCtrl],
+		controller: ['$q', '$scope', QzmCtrl],
 		controllerAs: 'qzm',
 		bindToController: true,
 	}
 
-	function CodeEditorCtrl($q, $scope) {
+	function QzmCtrl($q, $scope) {
 		var qzm = this;
 
 		// METHODS
@@ -64,15 +64,15 @@ function quizzEm() {
 				if (qzm.errorInUserCode = data.error[0]) {
 					qzm.showError = true;
 					// pass out result of code check
-					qzm.onCheck({passed: false});
+					qzm.qzmOnCheck({passed: false});
 				} else {
 					// pass out result of code check
 					if (qzm.currentStep == qzm.maxStep) qzm.maxStep++;
 					if (qzm.currentStep < qzm.inputTests.length - 1) {
 						goToStep(++qzm.currentStep);
-						qzm.onCheck({passed: false});
+						qzm.qzmOnCheck({passed: false});
 					} else {
-						qzm.onCheck({passed: true});
+						qzm.qzmOnCheck({passed: true});
 					}
 				}
 			});
