@@ -10,12 +10,6 @@ function TestsCtrl(tests, $location) {
 
 	ctrl.didPass = function(passed) {
 		ctrl.passed = passed;
-		if (passed) {
-			ctrl.showSuccess = true;
-			setTimeout(function() {
-				ctrl.showSuccess = false;
-			}, 1200)
-		}
 	}
 
 	ctrl.stringify = function() {
