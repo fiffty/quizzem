@@ -12,11 +12,15 @@
     "angular": "~1.4.7",
     "angular-ui-codemirror": "^0.3.0",
     "angular-sanitize": "^1.5.0",
-    "font-awesome": "fontawesome#~4.5.0",
+    "font-awesome": "^4.5.0"
   },
   "moduleType": [],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fiffty/quizzem.git"
+  },
   "license": "MIT",
-  "homepage": "",
+  "homepage": "http://fiffty.github.io/quizzem",
   "ignore": [
     "**/.*",
     "node_modules",
