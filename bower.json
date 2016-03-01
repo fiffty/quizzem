@@ -15,10 +15,6 @@
     "font-awesome": "^4.5.0"
   },
   "moduleType": [],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/fiffty/quizzem.git"
-  },
   "license": "MIT",
   "homepage": "http://fiffty.github.io/quizzem",
   "ignore": [
@@ -26,6 +22,7 @@
     "node_modules",
     "bower_components",
     "test",
-    "tests"
+    "tests",
+    "demo"
   ]
 }
