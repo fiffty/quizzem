@@ -1,5 +1,8 @@
-# quizzem [demo](http://fiffty.github.io/quizzem/)
+# quizzem
 Create quizes within an in-browser text editor
+
+
+[demo](http://fiffty.github.io/quizzem/)
 
 ## Installing
 ```
