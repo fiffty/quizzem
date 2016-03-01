@@ -1,0 +1,187 @@
+* {
+  box-sizing: border-box;
+}
+*:focus {
+  outline: none;
+}
+.qzm {
+  width:100%;
+}
+.qzm-main {
+  margin-bottom: 40px;
+}
+.qzm-codemirror {
+  border-top: 0px;
+  border: 1px solid #ccc;
+}
+.qzm-toolbar{
+  background-color: #666;
+  width: 100%;
+  height: 32px;
+  position: relative;
+  line-height: 32px;
+  color: #eee;
+  font-size: 1em;
+  overflow: auto;
+}
+.qzm-toolbar__lang {
+  float: left;
+  background-color: #444;
+  padding: 0 10px;
+}
+.qzm-toolbar__err {
+  float: left;
+  padding: 0 10px;
+}
+.qzm-toolbar__err__close {
+  cursor: pointer;
+  color: #222;
+  font-size: 0.8em;
+  display: inline-block;
+  padding: 0 10px;
+  transition: 0.2s;
+  -webkit-transition: 0.2s;
+}
+.qzm-toolbar__err__close:hover {
+  color:#eee;
+  transition: 0.5s;
+  -webkit-transition: 0.5s;
+}
+.qzm-toolbar__btn {
+  float:right;
+  height: 100%;
+  background-color: #0282ff;
+  color:#fff;
+  padding: 0 10px;
+  cursor: pointer;
+}
+.qzm-steps {
+  text-align: center;
+  margin-top:10px;
+}
+.qzm-steps__btn {
+  width: 22px;
+  height: 22px;
+  margin-right: 5px;
+  border-radius: 100%;
+  padding:0;
+  border:0;
+  background-color: #9AC6FF;
+  color: #fff;
+}
+.qzm-steps__btn--active {
+  background-color: #2b96ff;
+}
+.qzm-steps__btn[disabled="disabled"] {
+  background-color: #eee;
+  color:#aaa;
+}
+.qzm-shake {
+  animation-name: shake;
+  -webkit-animation-name: shake;
+  animation-duration: 0.4s;
+  -webkit-animation-duration: 0.4s;
+  animation-fill-mode: both;
+  -webkit-animation-fill-mode: both; 
+}
+.qzm-bounce {
+  animation-name: bounce;
+  -webkit-animation-name: bounce;  
+  transform-origin: center bottom;
+  -webkit-transform-origin: center bottom;
+  animation-duration: 1s;
+  -webkit-animation-duration: 1s;
+}
+
+
+@-webkit-keyframes shake {
+  from, to {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+
+  20%, 60% {
+    -webkit-transform: translate3d(-3px, 0, 0);
+    transform: translate3d(-3px, 0, 0);
+  }
+
+  40%, 80% {
+    -webkit-transform: translate3d(3px, 0, 0);
+    transform: translate3d(3px, 0, 0);
+  }
+}
+
+@keyframes shake {
+  from, to {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+
+  20%, 60% {
+    -webkit-transform: translate3d(-3px, 0, 0);
+    transform: translate3d(-3px, 0, 0);
+  }
+
+  40%, 80% {
+    -webkit-transform: translate3d(3px, 0, 0);
+    transform: translate3d(3px, 0, 0);
+  }
+}
+
+
+@-webkit-keyframes bounce {
+  from, 20%, 53%, 80%, to {
+    -webkit-animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+    animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+    -webkit-transform: translate3d(0,0,0);
+    transform: translate3d(0,0,0);
+  }
+
+  40%, 43% {
+    -webkit-animation-timing-function: cubic-bezier(0.755, 0.050, 0.855, 0.060);
+    animation-timing-function: cubic-bezier(0.755, 0.050, 0.855, 0.060);
+    -webkit-transform: translate3d(0, -30px, 0);
+    transform: translate3d(0, -30px, 0);
+  }
+
+  70% {
+    -webkit-animation-timing-function: cubic-bezier(0.755, 0.050, 0.855, 0.060);
+    animation-timing-function: cubic-bezier(0.755, 0.050, 0.855, 0.060);
+    -webkit-transform: translate3d(0, -15px, 0);
+    transform: translate3d(0, -15px, 0);
+  }
+
+  90% {
+    -webkit-transform: translate3d(0,-4px,0);
+    transform: translate3d(0,-4px,0);
+  }
+}
+
+@keyframes bounce {
+  from, 20%, 53%, 80%, to {
+    -webkit-animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+    animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+    -webkit-transform: translate3d(0,0,0);
+    transform: translate3d(0,0,0);
+  }
+
+  40%, 43% {
+    -webkit-animation-timing-function: cubic-bezier(0.755, 0.050, 0.855, 0.060);
+    animation-timing-function: cubic-bezier(0.755, 0.050, 0.855, 0.060);
+    -webkit-transform: translate3d(0, -12px, 0);
+    transform: translate3d(0, -12px, 0);
+  }
+
+  70% {
+    -webkit-animation-timing-function: cubic-bezier(0.755, 0.050, 0.855, 0.060);
+    animation-timing-function: cubic-bezier(0.755, 0.050, 0.855, 0.060);
+    -webkit-transform: translate3d(0, -5px, 0);
+    transform: translate3d(0, -5px, 0);
+  }
+
+  90% {
+    -webkit-transform: translate3d(0,-2px,0);
+    transform: translate3d(0,-2px,0);
+  }
+}
+

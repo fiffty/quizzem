@@ -1,0 +1,49 @@
+<!doctype html>
+<html ng-app="myApp">
+<head>
+	<title>codeEditor</title>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="css/codemirror.css">
+	<link rel="stylesheet" type="text/css" href="css/monokai.css">
+	<link rel="stylesheet" href="css/font-awesome.css">
+	<link rel="stylesheet" type="text/css" href="quizzem/css/quizzem.css">
+
+
+	<script type="text/javascript" src="js/vendor/codemirror.js"></script>
+	<script type="text/javascript" src="js/vendor/javascript.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.0-rc.2/angular.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.0-rc.2/angular-route.min.js"></script>
+  <!-- dependecies for quizzem -->
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.0-rc.2/angular-sanitize.min.js"></script>
+  <script type="text/javascript" src="js/vendor/ui-codemirror.js"></script>
+  
+  <!-- quizzem -->
+  <script type="text/javascript" src="quizzem/js/quizzem.js"></script>
+
+	<!-- app.js -->
+	<script type="text/javascript" src="js/app.js"></script>
+
+	<!-- controllers -->
+	<script type="text/javascript" src="js/controllers/app.ctrl.js"></script>
+	<script type="text/javascript" src="js/controllers/tests.ctrl.js"></script>
+
+
+
+</head>
+<body ng-controller="AppCtrl as app">
+	<nav class="navbar navbar-default">
+		<div class="container">
+			<div class="navbar-header">
+				<span class="navbar-brand">Quizzes</span>
+			</div>
+			<ul class="nav navbar-nav">
+				<li><a ng-click="app.go('/console-log')">console log</a></li>
+				<li><a ng-click="app.go('/angular-module')">angular module</a></li>
+				<li><a ng-click="app.go('/node-process')">node process</a></li>
+			</ul>
+		</div>
+	</nav>
+	<div class="container" ng-view></div>
+</body>
+
+</html>
