@@ -1,7 +1,10 @@
-# quizzem
+# quizzem [demo](http://fiffty.github.io/quizzem/)
 Create quizes within an in-browser text editor
-[demo](http://fiffty.github.io/quizzem/)
 
+## Installing
+```
+bower install quizzem --save
+```
 
 ## Requirements
 - AngularJs
