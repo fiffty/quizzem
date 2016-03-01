@@ -5,8 +5,9 @@
   ],
   "description": "Create quizes within an in-browser text editor",
   "main": [
-    "./src/js/quizzem.js",
-    "./src/css/quizzem.css"
+    "./src/quizzem.js",
+    "./src/quizzem.css",
+    "./src/quizzem.html"
   ],
   "dependencies": {
     "angular": "~1.4.7",

@@ -10,7 +10,7 @@ angular.module('quizzem', [])
 // Angular Directive
 function qzm() {
 	return {
-		templateUrl: currentScriptPath.replace('quizzem.js', '../templates/quizzem.html'),
+		templateUrl: currentScriptPath.replace('quizzem.js', 'quizzem.html'),
 		restrict: 'EA',
 		replace: true,
 		scope: {
