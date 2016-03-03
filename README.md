@@ -9,6 +9,16 @@ Create quizes within an in-browser text editor
 bower install quizzem --save
 ```
 
+```html
+<link rel="stylesheet" type="text/css" href="bower_components/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" href="bower_components/codemirror/lib/codemirror.css">
+<link rel="stylesheet" type="text/css" href="bower_components/quizzem/dist/quizzem.css">
+<script type="text/javascript" src="bower_components/codemirror/lib/codemirror.js"></script>
+<script type="text/javascript" src="bower_components/angular/angular.js"></script>
+<script type="text/javascript" src="bower_components/angular-sanitize/angular-sanitize.min.js"></script>
+<script type="text/javascript" src="bower_components/quizzem/dist/quizzem.min.js"></script>
+```
+
 ## Requirements
 - AngularJs
 - angular-sanitize

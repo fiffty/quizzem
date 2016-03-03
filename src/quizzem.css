@@ -1,9 +1,3 @@
-* {
-  box-sizing: border-box;
-}
-*:focus {
-  outline: none;
-}
 .qzm {
   width:100%;
 }
