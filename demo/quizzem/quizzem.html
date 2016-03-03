@@ -1,25 +1,25 @@
 <div class="qzm">
 	<div class="qzm-toolbar">
 		<div class="qzm-toolbar__lang">
-			<span ng-bind="qzm.language"></span>
+			<span ng-bind="language"></span>
 		</div>
-		<div class="qzm-toolbar__err" ng-show="qzm.showError" ng-class="{'qzm-shake': qzm.showError}">
-			<span ng-bind="qzm.errorInUserCode"></span>
-			<span class="qzm-toolbar__err__close" ng-click="qzm.showError = false;">hide</span>
+		<div class="qzm-toolbar__err" ng-show="showError" ng-class="{'qzm-shake': showError}">
+			<span ng-bind="errorInUserCode"></span>
+			<span class="qzm-toolbar__err__close" ng-click="showError = false;">hide</span>
 		</div>
-		<div class="qzm-toolbar__btn" ng-click="qzm.checkWork()">Check Work</div>
+		<div class="qzm-toolbar__btn" ng-click="checkWork()">Check Work</div>
 	</div>
 
-	<div class="qzm-codemirror" ui-codemirror="{onLoad: qzm.codemirrorLoaded}" ui-codemirror-opts="{{qzm.inputOptions.codemirrorOptions}}" ui-refresh="qzm.inputRefreshState" ng-model="qzm.code"></div>
+	<div id="qzm-codemirror" class="qzm-codemirror"></div>
 
 	<div class="qzm-steps">
-		<button class="qzm-steps__btn" ng-class="{'qzm-steps__btn--active qzm-bounce': qzm.currentStep == $index}" ng-repeat="step in qzm.inputTests" ng-click="qzm.goToStep($index)" ng-disabled="$index > qzm.maxStep"><i class="fa" ng-class="{'fa-lock': qzm.maxStep < $index, 'fa-caret-right': qzm.maxStep == $index, 'fa-check': qzm.maxStep > $index}"></i></button>
+		<button class="qzm-steps__btn" ng-class="{'qzm-steps__btn--active qzm-bounce': currentStep == $index}" ng-repeat="step in inputTests" ng-click="goToStep($index)" ng-disabled="$index > maxStep"><i class="fa" ng-class="{'fa-lock': maxStep < $index, 'fa-caret-right': maxStep == $index, 'fa-check': maxStep > $index}"></i></button>
 	</div>
 
 	<div class="qzm-instructions">
 		<p>Instructions</p>
 		<ul>
-			<li ng-repeat="instruction in qzm.instructions" ng-bind-html="instruction"></li>
+			<li ng-repeat="instruction in instructions" ng-bind-html="instruction"></li>
 		</ul>
 	</div>
 </div>

@@ -7,6 +7,7 @@ function TestsCtrl(tests, $location) {
 	var ctrl = this;
 	ctrl.options = {codemirrorOptions: {lineWrapping: true,lineNumbers: true}};
 	ctrl.tests = tests;
+	ctrl.rerender = 1;
 
 	ctrl.didPass = function(passed) {
 		ctrl.passed = passed;

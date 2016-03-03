@@ -4,46 +4,59 @@ var scripts = document.getElementsByTagName("script")
 var currentScriptPath = scripts[scripts.length-1].src;
 
 angular.module('quizzem', [])
-.directive('qzm', qzm);
+.directive('qzm', ['$q', '$timeout', qzm]);
 
 
 // Angular Directive
-function qzm() {
+function qzm($q, $timeout) {
 	return {
 		templateUrl: currentScriptPath.replace('quizzem.js', 'quizzem.html'),
 		restrict: 'EA',
-		replace: true,
 		scope: {
 			inputOptions: '=qzmOptions',
 			inputTests: '=qzmTests',
 			inputRefreshState: '=qzmRefreshState',
-			qzmOnCheck: '&',
+			qzmOnCheck: '&'
 		},
-		controller: ['$q', '$scope', QzmCtrl],
-		controllerAs: 'qzm',
-		bindToController: true,
+		link: QzmLink,
 	}
 
-	function QzmCtrl($q, $scope) {
-		var qzm = this;
+	function QzmLink(scope, elem, attr, ngModel) {
+		// Require CodeMirror
+		if (angular.isUndefined(CodeMirror)) {
+			throw new Error('Quizzem needs CodeMirror to work.');
+		}
+
 
 		// METHODS
-		qzm.checkWork 		= checkWork; // method that checks user submitted work
-		qzm.codemirrorLoaded = codemirrorLoaded; // callback method for codemirror load
-		qzm.goToStep 		= goToStep; // navigate between quiz stages
+		scope.checkWork 		= checkWork; // method that checks user submitted work
+		scope.codemirrorLoaded 	= codemirrorLoaded; // callback method for codemirror load
+		scope.goToStep 			= goToStep; // navigate between quiz stages
 
 		// INITIAL SETUP
-		qzm.currentStep 		= 0; // track current step
-		qzm.maxStep			= 0; // track progress
-		qzm.showError 		= false;
-		goToStep(0); // loading first step of test
-		
+		// setup meta info for quiz steps
+		scope.currentStep 		= 0; // track current step
+		scope.maxStep			= 0; // track progress
+		scope.showError 		= false;
+		// create a new codemirror instance when
+		var codemirror;
+		// scope.inputTests receive a value
+		scope.$watch(function() {
+			return scope.inputTests;
+		}, function(newVal) {
+			if (newVal) { // make sure newVal is not empty
+				$timeout(function() {
+					renderCodemirror();
+					goToStep(codemirror, 0);
+				});
+			}
+		});
 
 		// HOISTED METHODS
 		// method that checks user submitted work
 		function checkWork() {
-			qzm.showError = false;
-			var stringifiedFunc = qzm.code + '\n' + qzm.testCode;
+			scope.showError = false;
+			var stringifiedFunc = scope.code + '\n' + scope.testCode;
 
 			// create web worker
 			var workerCode = quizzemWebWorker.toString();
@@ -61,18 +74,18 @@ function qzm() {
 				worker.terminate();
 			}
 			deferred.promise.then(function(data) {
-				if (qzm.errorInUserCode = data.error[0]) {
-					qzm.showError = true;
+				if (scope.errorInUserCode = data.error[0]) {
+					scope.showError = true;
 					// pass out result of code check
-					qzm.qzmOnCheck({passed: false});
+					scope.qzmOnCheck({passed: false});
 				} else {
 					// pass out result of code check
-					if (qzm.currentStep == qzm.maxStep) qzm.maxStep++;
-					if (qzm.currentStep < qzm.inputTests.length - 1) {
-						goToStep(++qzm.currentStep);
-						qzm.qzmOnCheck({passed: false});
+					if (scope.currentStep == scope.maxStep) scope.maxStep++;
+					if (scope.currentStep < scope.inputTests.length - 1) {
+						goToStep(codemirror, ++scope.currentStep);
+						scope.qzmOnCheck({passed: false});
 					} else {
-						qzm.qzmOnCheck({passed: true});
+						scope.qzmOnCheck({passed: true});
 					}
 				}
 			});
@@ -80,25 +93,30 @@ function qzm() {
 		// callback method for codemirror load
 		function codemirrorLoaded(editor) {}
 		// navigate between quiz stages
-		function goToStep(index) {
-			qzm.code 			= qzm.inputTests[index].startingCode || qzm.code;
-			qzm.testCode 		= qzm.inputTests[index].testCode;
-			qzm.language 		= qzm.inputTests[index].language;
-			qzm.instructions 	= qzm.inputTests[index].instructions;
-			qzm.currentStep 	= index;			
+		function goToStep(codemirror, index) {
+			scope.code 			= scope.inputTests[index].startingCode || scope.code;
+			codemirror.setValue(scope.code); // set codemirror's value to scope varialbe
+			scope.testCode 		= scope.inputTests[index].testCode;
+			scope.language 		= scope.inputTests[index].language;
+			scope.instructions 	= scope.inputTests[index].instructions;
+			scope.currentStep 	= index;			
 		}
-
-		// HELPER FUNCTIONS
-		// helper function that stringify functions
-		function toString(func) {
-			var o = '';
-			var temp = func.toString().split('\n');
-			temp.shift();
-			temp.pop();
-			for (var i = 0; i < temp.length; i++) {
-				o += temp[i].trim() + '\n';
+		// render codemirror
+		function renderCodemirror() {
+			if (codemirror) {
+				var cmElem = codemirror.getWrapperElement();
+				cmElem.parentNode.removeChild(cmElem);
+				codemirror = null;				
 			}
-			return o;
+			var opts = scope.inputOptions.codemirrorOptions;
+			opts.mode = scope.inputTests[0].language.toLowerCase();
+			console.log(opts);
+			codemirror = new CodeMirror(document.getElementById('qzm-codemirror'), opts);
+			// stream codemirror changes to scope variable
+			codemirror.on('change', function(instance) {
+				scope.code = instance.getValue();
+			});				
+			// streaming scope variable changes to codemirror happens in goToStep()			
 		}
 	}
 };
