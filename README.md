@@ -1,5 +1,5 @@
 # quizzem
-Create quizes within an in-browser text editor
+Create quizzes within an in-browser text editor
 
 
 [demo](http://fiffty.github.io/quizzem/)
@@ -22,13 +22,18 @@ bower install quizzem --save
 ## Requirements
 - AngularJs
 - angular-sanitize
-- [angular-ui-codemirror](https://github.com/angular-ui/ui-codemirror)
+- [codemirror](https://codemirror.net/)
 - [font-awesome](https://fortawesome.github.io/Font-Awesome/)
 
 
-## Attributes
+## Using
+```html
+<qzm qzm-options="ctrl.qzmOptions" qzm-tests="ctrl.qzmTests" qzm-on-check="ctrl.qzmPassed(passed)"></qzm>
+```
+
 ### qzm-options
 - object
+- current takes in a [codemirror configuration object](https://codemirror.net/doc/manual.html#config)
 ```javascript
 {codemirrorOptions: <code mirror options object>}
 ```
