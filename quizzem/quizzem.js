@@ -32,8 +32,11 @@ function qzm($q, $timeout) {
 			throw new Error('Quizzem needs CodeMirror to work.');
 		}
 
+        // SET MODE
+        scope.mode              = scope.inputOptions.codemirrorOptions.mode;
 
 		// METHODS
+        scope.backToCode        = backToCode; // used when mode is HTML
 		scope.checkWork 		= checkWork; // method that checks user submitted work
 		scope.codemirrorLoaded 	= codemirrorLoaded; // callback method for codemirror load
 		scope.goToStep 			= goToStep; // navigate between quiz stages
@@ -58,8 +61,21 @@ function qzm($q, $timeout) {
 		});
 
 		// HOISTED METHODS
+        function backToCode() {
+            switch (scope.mode) {
+                case 'html': 
+                    scope.showHTML = false;
+            }
+        }
 		// method that checks user submitted work
 		function checkWork() {
+            switch (scope.mode) {
+                case 'javascript': checkJavaScript();
+                case 'html': checkHTML();
+            };
+		}
+        // method that checks javascript
+        function checkJavaScript() {
 			scope.showError = false;
 			var stringifiedFunc = scope.code + '\n' + scope.testCode;
 
@@ -93,8 +109,11 @@ function qzm($q, $timeout) {
 						scope.qzmOnCheck({passed: true});
 					}
 				}
-			});
-		}
+			});            
+        }
+        function checkHTML() {
+            scope.showHTML = true;
+        }
 		// callback method for codemirror load
 		function codemirrorLoaded(editor) {}
 		// navigate between quiz stages
@@ -103,8 +122,8 @@ function qzm($q, $timeout) {
 			scope.code 			= scope.inputTests[index].startingCode || scope.code || '';
 			codemirror.setValue(scope.code); // set codemirror's value to scope varialbe
 			scope.testCode 		= scope.inputTests[index].testCode;
-			scope.language 		= scope.inputTests[index].language;
-			scope.instructions 	= scope.inputTests[index].instructions;
+			// scope.language 		= scope.inputTests[index].language;
+			// scope.instructions 	= scope.inputTests[index].instructions;
 			scope.currentStep 	= index;			
 		}
 		// render codemirror
@@ -119,7 +138,7 @@ function qzm($q, $timeout) {
             if (scope.inputTests.length > 1) scope.hasManySteps = true;
             
 			var opts = scope.inputOptions.codemirrorOptions;
-			opts.mode = scope.inputTests[0].language.toLowerCase();
+			// opts.mode = scope.inputTests[0].language.toLowerCase();
 			codemirror = new CodeMirror(document.getElementById('qzm-codemirror'), opts);
 			scope.codemirror = codemirror;
 			// stream codemirror changes to scope variable

@@ -1,7 +1,7 @@
 <div class="qzm">
 	<div class="qzm-toolbar">
 		<div class="qzm-toolbar__lang">
-			<span ng-bind="language"></span>
+			<span ng-bind="mode" ng-click="backToCode()"></span>
 		</div>
 		<div class="qzm-toolbar__err" ng-show="showError" ng-class="{'qzm-shake': showError}">
 			<span ng-bind="errorInUserCode"></span>
@@ -10,16 +10,13 @@
 		<div class="qzm-toolbar__btn" ng-click="checkWork()">Check Work</div>
 	</div>
 
-	<div id="qzm-codemirror" class="qzm-codemirror"></div>
-
+    <div class="qzm-container">
+        <div id="qzm-codemirror" class="qzm-container__input"></div>
+        <div ng-if="showHTML" ng-bind-html="code" class="qzm-container__output"></div>
+    </div>
+    
 	<div class="qzm-steps" ng-if="hasManySteps">
 		<button class="qzm-steps__btn" ng-class="{'qzm-steps__btn--active qzm-bounce': currentStep == $index}" ng-repeat="step in inputTests" ng-click="goToStep(codemirror, $index, true)" ng-disabled="$index > maxStep"><i class="fa" ng-class="{'fa-lock': maxStep < $index, 'fa-caret-right': maxStep == $index, 'fa-check': maxStep > $index}"></i></button>
 	</div>
 
-	<div class="qzm-instructions">
-		<p>Instructions</p>
-		<ul>
-			<li ng-repeat="instruction in instructions" ng-bind-html="instruction"></li>
-		</ul>
-	</div>
 </div>
