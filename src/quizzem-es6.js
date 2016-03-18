@@ -1,11 +1,9 @@
-'use strict';
-
-var scripts = document.getElementsByTagName("script");
-var currentScriptPath = scripts[scripts.length-1].src;
+const scripts = document.getElementsByTagName("script");
+const currentScriptPath = scripts[scripts.length-1].src;
 if (currentScriptPath.slice(-6) == 'min.js') {
-	var templatePath = currentScriptPath.replace('quizzem.min.js', 'quizzem.html');
+	const templatePath = currentScriptPath.replace('quizzem.min.js', 'quizzem.html');
 } else {
-	var templatePath = currentScriptPath.replace('quizzem.js', 'quizzem.html');
+	const templatePath = currentScriptPath.replace('quizzem.js', 'quizzem.html');
 }
 
 angular.module('quizzem', [])
@@ -44,7 +42,7 @@ function qzm($q, $timeout) {
 		scope.maxStep			= 0; // track progress
 		scope.showError 		= false;
 		// create a new codemirror instance when
-		var codemirror;
+		let codemirror;
 		// scope.inputTests receive a value
 		scope.$watch(function() {
 			return scope.inputTests;
@@ -61,19 +59,19 @@ function qzm($q, $timeout) {
 		// method that checks user submitted work
 		function checkWork() {
 			scope.showError = false;
-			var stringifiedFunc = scope.code + '\n' + scope.testCode;
+			let stringifiedFunc = scope.code + '\n' + scope.testCode;
 
 			// create web worker
-			var workerCode = quizzemWebWorker.toString();
+			let workerCode = quizzemWebWorker.toString();
 			workerCode = workerCode.substring(workerCode.indexOf("{")+1, workerCode.lastIndexOf("}"));
-			var blob = new Blob([workerCode], {type:'application/javascript'});
-			var worker = new Worker(URL.createObjectURL(blob));
+			let blob = new Blob([workerCode], {type:'application/javascript'});
+			let worker = new Worker(URL.createObjectURL(blob));
 			
 			// send message to worker
 			worker.postMessage(stringifiedFunc);
 
 			// handle message from worker
-			var deferred = $q.defer();
+			let deferred = $q.defer();
 			worker.onmessage = function(e) {
 				deferred.resolve(e.data);
 				worker.terminate();
@@ -98,8 +96,7 @@ function qzm($q, $timeout) {
 		// callback method for codemirror load
 		function codemirrorLoaded(editor) {}
 		// navigate between quiz stages
-		function goToStep(codemirror, index, userClick) { // userClick is true if this method is called from a user click
-			if (userClick && scope.currentStep == scope.maxStep && scope.currentStep == index) { return checkWork();};
+		function goToStep(codemirror, index) {
 			scope.code 			= scope.inputTests[index].startingCode || scope.code;
 			codemirror.setValue(scope.code); // set codemirror's value to scope varialbe
 			scope.testCode 		= scope.inputTests[index].testCode;
@@ -110,14 +107,13 @@ function qzm($q, $timeout) {
 		// render codemirror
 		function renderCodemirror() {
 			if (codemirror) {
-				var cmElem = codemirror.getWrapperElement();
+				let cmElem = codemirror.getWrapperElement();
 				cmElem.parentNode.removeChild(cmElem);
 				codemirror = null;				
 			}
-			var opts = scope.inputOptions.codemirrorOptions;
+			let opts = scope.inputOptions.codemirrorOptions;
 			opts.mode = scope.inputTests[0].language.toLowerCase();
 			codemirror = new CodeMirror(document.getElementById('qzm-codemirror'), opts);
-			scope.codemirror = codemirror;
 			// stream codemirror changes to scope variable
 			codemirror.on('change', function(instance) {
 				scope.code = instance.getValue();
@@ -131,15 +127,15 @@ function qzm($q, $timeout) {
 function quizzemWebWorker() {
 	(function () {
 	    // save methods in local variable before stripping away properties
-	    var _postMessage = postMessage;
-	    var _addEventListener = addEventListener;
+	    let _postMessage = postMessage;
+	    let _addEventListener = addEventListener;
 
 	    // anonymous function to strip away properties that aren't needed
 	    (function (obj) {
 	        'use strict';
 
-	        var current = obj; // currentlt, current => DedicatedWorkerGlobalScope 
-	        var keepProperties = [
+	        let current = obj; // currentlt, current => DedicatedWorkerGlobalScope 
+	        let keepProperties = [
 	            // required by JavaScript
 	            'Object', 'Function', 'Infinity', 'NaN', 'undefined',
 	            // other stuff we want to keep
@@ -162,17 +158,17 @@ function quizzemWebWorker() {
 
 	    // listen to message being sent in to worker
 	    _addEventListener('message', function (e) {
-	        var msg = {
+	        let msg = {
 	            error: [],
 	        };
 	        // initialize test enviroment
 	        testEnv(msg);
 	        // construct the function inside the worker whose scope has limited properties
-	        var f = new Function(e.data);
+	        let f = new Function(e.data);
 	        
 	        // run the function inside the worker, and send its returned value as message
 	        try {
-	            var obj = f();
+	            let obj = f();
 	            if (obj[0] == false) {
 	                msg.error.push(obj[1]);
 	            } else {
@@ -184,12 +180,10 @@ function quizzemWebWorker() {
 	        _postMessage(msg);
 	    });
 
-	    function testEnv(msg) {
-	        var self = this;
-
-	        // object that logs psuedo method calls
+        let testEnv = (msg) => {
+            // object that logs psuedo method calls
 	        // visible to module javascript objects
-	        self.did = {
+	        this.did = {
 	            console: {
 	                log: [],
 	            },
@@ -208,14 +202,14 @@ function quizzemWebWorker() {
 	        // PSUEDO OBJECTS
 
 	        // console
-	        self.console = {
+	        this.console = {
 	            log: function(a) {
 	                self.did.console.log.push(a);
 	            }
 	        }
 
 	        // angular
-	        var errorMessagesSetters = function(name, func, key) {
+	        let errorMessagesSetters = function(name, func, key) {
 	            if (!(name && func)) {
 	                msg.error.push(key + ' method needs two parameters when initiating an app.');
 	            } else if (typeof(name) != 'string') {
@@ -224,7 +218,7 @@ function quizzemWebWorker() {
 	                msg.error.push('The second parameter for ' + key + ' must be a function.');
 	            }         
 	        }
-	        self.angular = {
+	        this.angular = {
 	            module: function(name, array) {
 	                if (!(name && array)) {
 	                    msg.error.push('angular.module() method needs two parameters when initiating an app.');
@@ -259,9 +253,9 @@ function quizzemWebWorker() {
 	            }
 	        }
 	        //node
-	        self.process = {
+	        this.process = {
 	            argv: ['node','app.js','1','2','hello', '4'],
-	        } 
-	    }
+	        }             
+        }
 	})();
 }

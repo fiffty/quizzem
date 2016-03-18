@@ -100,7 +100,7 @@ function qzm($q, $timeout) {
 		// navigate between quiz stages
 		function goToStep(codemirror, index, userClick) { // userClick is true if this method is called from a user click
 			if (userClick && scope.currentStep == scope.maxStep && scope.currentStep == index) { return checkWork();};
-			scope.code 			= scope.inputTests[index].startingCode || scope.code;
+			scope.code 			= scope.inputTests[index].startingCode || scope.code || '';
 			codemirror.setValue(scope.code); // set codemirror's value to scope varialbe
 			scope.testCode 		= scope.inputTests[index].testCode;
 			scope.language 		= scope.inputTests[index].language;
@@ -114,6 +114,10 @@ function qzm($q, $timeout) {
 				cmElem.parentNode.removeChild(cmElem);
 				codemirror = null;				
 			}
+            
+            //
+            if (scope.inputTests.length > 1) scope.hasManySteps = true;
+            
 			var opts = scope.inputOptions.codemirrorOptions;
 			opts.mode = scope.inputTests[0].language.toLowerCase();
 			codemirror = new CodeMirror(document.getElementById('qzm-codemirror'), opts);
