@@ -3,9 +3,9 @@
 angular.module('myApp')
 .controller('TestsCtrl', TestsCtrl);
 
-function TestsCtrl(tests, $location) {
+function TestsCtrl(tests, options, $location) {
 	var ctrl = this;
-	ctrl.options = {codemirrorOptions: {lineWrapping: true,lineNumbers: true}};
+	ctrl.options = options;
 	ctrl.tests = tests;
 	ctrl.rerender = 1;
 
