@@ -21,6 +21,7 @@ function qzm($q, $timeout) {
 			inputOptions: '=qzmOptions',
 			inputTests: '=qzmTests',
 			inputRefreshState: '=qzmRefreshState',
+            outputResult: '=qzmResult',
 			qzmOnCheck: '&'
 		},
 		link: QzmLink,
@@ -46,6 +47,7 @@ function qzm($q, $timeout) {
 		// Javascript: setup meta info for quiz steps
 		scope.currentStep 		= 0; // track current step
 		scope.maxStep			= 0; // track progress
+        scope.totalSteps        = scope.inputTests.length; // all steps
 		scope.showError 		= false;
 		// create a new codemirror instance when
 		var codemirror;
@@ -65,8 +67,8 @@ function qzm($q, $timeout) {
 		// method that checks user submitted work
 		function checkWork() {
             switch (scope.mode) {
-                case 'javascript': checkJavaScript();
-                case 'html': checkHTML();
+                case 'javascript': checkJavaScript();break;
+                case 'html': checkHTML();break;
             };
 		}
         // method that checks javascript
@@ -93,17 +95,22 @@ function qzm($q, $timeout) {
 				if (scope.errorInUserCode = data.error[0]) {
 					scope.showError = true;
 					// pass out result of code check
-					scope.qzmOnCheck({passed: false});
+					// scope.qzmOnCheck({passed: false});
 				} else {
 					// pass out result of code check
 					if (scope.currentStep == scope.maxStep) scope.maxStep++;
 					if (scope.currentStep < scope.inputTests.length - 1) {
 						goToStep(codemirror, ++scope.currentStep);
-						scope.qzmOnCheck({passed: false});
+						// scope.qzmOnCheck({passed: false});
 					} else {
-						scope.qzmOnCheck({passed: true});
+						// scope.qzmOnCheck({passed: true});
 					}
 				}
+                scope.outputResult = {
+                    currentStep: scope.currentStep,
+                    maxStep: scope.maxStep,
+                    totalSteps: scope.totalSteps
+                }
 			});            
         }
         function checkHTML() {

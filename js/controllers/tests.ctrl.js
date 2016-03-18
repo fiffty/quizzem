@@ -3,7 +3,7 @@
 angular.module('myApp')
 .controller('TestsCtrl', TestsCtrl);
 
-function TestsCtrl(tests, options, $location) {
+function TestsCtrl(tests, options, $location, $scope) {
 	var ctrl = this;
 	ctrl.options = options;
 	ctrl.tests = tests;
@@ -27,6 +27,12 @@ function TestsCtrl(tests, options, $location) {
 		}
 		return o;
 	}
+    
+    $scope.$watch(function() {
+        return ctrl.result;
+    }, function(newVal) {
+        if (newVal) console.log(newVal.currentStep + '/' + newVal.totalSteps + ' steps done');
+    })
 }
 
 })();
