@@ -1,13 +1,14 @@
 <div class="qzm">
 	<div class="qzm-toolbar">
 		<div class="qzm-toolbar__lang">
-			<span ng-bind="mode" ng-click="backToCode()"></span>
+			<span ng-bind="mode"></span>
 		</div>
 		<div class="qzm-toolbar__err" ng-show="showError" ng-class="{'qzm-shake': showError}">
 			<span ng-bind="errorInUserCode"></span>
 			<span class="qzm-toolbar__err__close" ng-click="showError = false;">hide</span>
 		</div>
-		<div class="qzm-toolbar__btn" ng-click="checkWork()">Check Work</div>
+		<div class="qzm-toolbar__btn" ng-if="mode == 'javascript'" ng-click="checkWork()">Check Work</div>
+        <div class="qzm-toolbar__btn" ng-if="mode == 'html'" ng-click="checkWork()" ng-bind="htmlBtn"></div>
 	</div>
 
     <div class="qzm-container">
