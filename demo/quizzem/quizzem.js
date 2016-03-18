@@ -36,13 +36,14 @@ function qzm($q, $timeout) {
         scope.mode              = scope.inputOptions.codemirrorOptions.mode;
 
 		// METHODS
-        scope.backToCode        = backToCode; // used when mode is HTML
 		scope.checkWork 		= checkWork; // method that checks user submitted work
 		scope.codemirrorLoaded 	= codemirrorLoaded; // callback method for codemirror load
 		scope.goToStep 			= goToStep; // navigate between quiz stages
 
 		// INITIAL SETUP
-		// setup meta info for quiz steps
+        // HTML
+        scope.htmlBtn = 'Show Output'
+		// Javascript: setup meta info for quiz steps
 		scope.currentStep 		= 0; // track current step
 		scope.maxStep			= 0; // track progress
 		scope.showError 		= false;
@@ -61,12 +62,6 @@ function qzm($q, $timeout) {
 		});
 
 		// HOISTED METHODS
-        function backToCode() {
-            switch (scope.mode) {
-                case 'html': 
-                    scope.showHTML = false;
-            }
-        }
 		// method that checks user submitted work
 		function checkWork() {
             switch (scope.mode) {
@@ -112,7 +107,12 @@ function qzm($q, $timeout) {
 			});            
         }
         function checkHTML() {
-            scope.showHTML = true;
+            scope.showHTML = !(scope.showHTML);
+            if (scope.showHTML) {
+                scope.htmlBtn = 'Show HTML'
+            } else {
+                scope.htmlBtn = 'Show Output'
+            }
         }
 		// callback method for codemirror load
 		function codemirrorLoaded(editor) {}
