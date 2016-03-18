@@ -12,7 +12,7 @@
 
 	<div id="qzm-codemirror" class="qzm-codemirror"></div>
 
-	<div class="qzm-steps">
+	<div class="qzm-steps" ng-if="hasManySteps">
 		<button class="qzm-steps__btn" ng-class="{'qzm-steps__btn--active qzm-bounce': currentStep == $index}" ng-repeat="step in inputTests" ng-click="goToStep(codemirror, $index, true)" ng-disabled="$index > maxStep"><i class="fa" ng-class="{'fa-lock': maxStep < $index, 'fa-caret-right': maxStep == $index, 'fa-check': maxStep > $index}"></i></button>
 	</div>
 
