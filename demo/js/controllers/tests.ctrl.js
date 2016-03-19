@@ -31,7 +31,7 @@ function TestsCtrl(tests, options, $location, $scope) {
     $scope.$watch(function() {
         return ctrl.result;
     }, function(newVal) {
-        if (newVal) console.log(newVal.currentStep + '/' + newVal.totalSteps + ' steps done');
+        if (newVal) ctrl.msg = newVal.currentStep + '/' + newVal.totalSteps + ' steps done';
     })
 }
 
