@@ -145,6 +145,7 @@ function qzm($q, $timeout) {
             if (scope.inputTests.length > 1) scope.hasManySteps = true;
             
 			var opts = scope.inputOptions.codemirrorOptions;
+            if (opts.mode == 'html') opts.mode = 'htmlmixed';
 			// opts.mode = scope.inputTests[0].language.toLowerCase();
 			codemirror = new CodeMirror(document.getElementById('qzm-codemirror'), opts);
 			scope.codemirror = codemirror;
