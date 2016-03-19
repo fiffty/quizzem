@@ -21,8 +21,7 @@ function qzm($q, $timeout) {
 			inputOptions: '=qzmOptions',
 			inputTests: '=qzmTests',
 			inputRefreshState: '=qzmRefreshState',
-            outputResult: '=qzmResult',
-			qzmOnCheck: '&'
+            outputResult: '=qzmResult'
 		},
 		link: QzmLink,
 	};
@@ -48,6 +47,11 @@ function qzm($q, $timeout) {
 		scope.currentStep 		= 0; // track current step
 		scope.maxStep			= 0; // track progress
         scope.totalSteps        = scope.inputTests.length; // all steps
+        scope.outputResult = {
+            currentStep: scope.currentStep,
+            maxStep: scope.maxStep,
+            totalSteps: scope.totalSteps
+        };
 		scope.showError 		= false;
 		// create a new codemirror instance when
 		var codemirror;
