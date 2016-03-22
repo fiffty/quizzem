@@ -1,6 +1,6 @@
 (function() {
 
-angular.module('myApp', ['ngRoute','ngSanitize','quizzem'])
+angular.module('myApp', ['ngRoute','quizzem'])
 .config(function($routeProvider, $locationProvider) {
 	$routeProvider
 		.when('/console-log', {

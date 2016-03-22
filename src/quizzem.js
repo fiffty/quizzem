@@ -9,11 +9,11 @@ if (currentScriptPath.slice(-6) == 'min.js') {
 }
 
 angular.module('quizzem', [])
-.directive('qzm', ['$q', '$timeout', qzm]);
+.directive('qzm', ['$q', '$timeout', '$sce',qzm]);
 
 
 // Angular Directive
-function qzm($q, $timeout) {
+function qzm($q, $timeout, $sce) {
 	return {
 		templateUrl: templatePath,
 		restrict: 'EA',
@@ -149,7 +149,14 @@ function qzm($q, $timeout) {
             if (scope.inputTests.length > 1) scope.hasManySteps = true;
             
 			var opts = scope.inputOptions.codemirrorOptions;
-            if (opts.mode == 'html') opts.mode = 'htmlmixed';
+            if (opts.mode == 'html') {
+                opts.mode = 'htmlmixed';
+                scope.$watch(function() {
+                    return scope.code;
+                }, function(newVal) {
+                    scope.htmlcode = $sce.trustAsHtml(newVal);
+                })
+            }
 			// opts.mode = scope.inputTests[0].language.toLowerCase();
 			codemirror = new CodeMirror(document.getElementById('qzm-codemirror'), opts);
 			scope.codemirror = codemirror;
