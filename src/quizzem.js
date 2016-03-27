@@ -185,7 +185,7 @@ function quizzemWebWorker() {
 	            // required by JavaScript
 	            'Object', 'Function', 'Infinity', 'NaN', 'undefined',
 	            // other stuff we want to keep
-	            'Array', 'Boolean', 'Number', 'String', 'Symbol', 'Map', 'Math', 'Set', 'isNaN',
+	            'Array', 'Boolean', 'Number', 'String', 'Symbol', 'Map', 'Math', 'Set', 'isNaN', 'parseInt', 'parseFloat', 'JSON',
 	            // stuff that cannot be deleted
 	            'caches', 'TEMPORARY', 'PERSISTENT'
 	        ];
