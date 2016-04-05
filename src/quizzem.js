@@ -209,11 +209,13 @@ function quizzemWebWorker() {
 	        };
 	        // initialize test enviroment
 	        testEnv(msg);
-	        // construct the function inside the worker whose scope has limited properties
-	        var f = new Function(e.data);
+
 	        
 	        // run the function inside the worker, and send its returned value as message
 	        try {
+		        // construct the function inside the worker whose scope has limited properties
+	        	var f = new Function(e.data);
+	        	
 	            var obj = f();
 	            if (obj[0] == false) {
 	                msg.error.push(obj[1]);
